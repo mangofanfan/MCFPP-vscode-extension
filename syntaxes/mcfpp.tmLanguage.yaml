@@ -1,0 +1,94 @@
+# 注意：VS Code 不会加载此文件，仅作为源文件维护。
+# 修改此文件后需转换为 JSON（js-yaml）
+$schema: https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json
+name: MCFPP
+scopeName: source.mcfpp
+fileTypes:
+  - mcfpp
+
+patterns:
+  - include: '#comment'
+  - include: '#decorator'
+  - include: '#function'
+  - include: '#keyword'
+  - include: '#storage'
+  - include: '#string'
+  - include: '#number'
+
+repository:
+  # repository 条目必须是对象（内部用 patterns 包裹），不能直接是数组
+  # 注释
+  comment:
+    patterns:
+      # 文档注释 #{ ... }#
+      - name: comment.block.documentation.mcfpp
+        begin: '#\{'
+        end: '\}#'
+      # 块注释 ## ... ##
+      - name: comment.block.mcfpp
+        begin: '##'
+        end: '##'
+      # 行注释 # ...（必须放在最后）
+      - name: comment.line.mcfpp
+        match: '#.*'
+  
+  # 装饰器/注解？
+  decorator:
+    patterns:
+      - name: meta.decorator.mcfpp
+        match: '(@)(\w+)\b'
+        captures:
+          1: 
+            name: punctuation.definition.decorator.mcfpp
+          2: 
+            name: entity.name.function.decorator.mcfpp
+  
+  # 函数
+  function:
+    patterns:
+      - match: '\b(func)\s+(\w+)\b'
+        captures:
+            1:
+                name: storage.type.function.mcfpp
+            2:
+                name: entity.name.function.mcfpp
+  
+  # 关键字
+  keyword:
+    patterns:
+      - name: keyword.control.mcfpp
+        match: '\b(?:if|else|do|while|for|return|break|continue)\b'
+      - name: keyword.operator.mcfpp
+        match: '==|!=|<=|>=|->|[+\-*/%<>!&|=]'
+  
+  # 另一类关键字
+  storage:
+    patterns:
+      - name: storage.type.mcfpp
+        match: '\b(?:const|var|class)\b'
+      - name: storage.modifier.mcfpp
+        match: '\b(?:as|dynamic|static|override|int|float|bool|nbt|list|dict|map|string|text|entity|selector)\b'
+
+  # 字符串
+  string:
+    patterns:
+      - name: string.quoted.double.mcfpp
+        begin: '"'
+        end: '"'
+        # captures 的值必须是 name 对象，不能是字符串
+        beginCaptures:
+          '0':
+            name: punctuation.definition.string.begin.mcfpp
+        endCaptures:
+          '0':
+            name: punctuation.definition.string.end.mcfpp
+        patterns:
+          # 转义序列，防止 \" 提前终止字符串
+          - name: constant.character.escape.mcfpp
+            match: '\\.'
+  
+  # 数字
+  number:
+    patterns:
+      - name: constant.numeric.mcfpp
+        match: '\b(?:0[xX][0-9a-fA-F]+|\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)\b'
