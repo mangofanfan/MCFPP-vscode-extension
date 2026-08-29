@@ -3,8 +3,21 @@
   "displayName": "MCFPP",
   "description": "MCFPP language support for VS Code",
   "version": "0.1.0",
+  "publisher": "MangoFanFanW",
+  "icon": "images/MCFPP-icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mangofanfan/MCFPP-vscode-extension"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mcfpp",
+    "minecraft",
+    "datapack",
+    "mcfunction"
+  ],
   "engines": {
-    "vscode": "^1.134.0"
+    "vscode": "^1.120.0"
   },
   "categories": [
     "Programming Languages"
@@ -33,5 +46,9 @@
   },
   "devDependencies": {
     "js-yaml": "^5.4.1"
+  },
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
   }
 }
