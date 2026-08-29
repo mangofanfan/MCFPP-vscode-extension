@@ -1,5 +1,7 @@
 # MCFPP VS Code 语言支持
 
+[EN](README.md) | **CN**
+
 **[MCFPP](https://github.com/MinecraftFunctionPlusPlus/MCFPP)** 是一个致力于简化 Minecraft
 数据包开发的、面向对象的高级编程语言。
 
