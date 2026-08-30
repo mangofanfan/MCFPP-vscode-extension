@@ -2,9 +2,10 @@
   "name": "mcfpp",
   "displayName": "MCFPP",
   "description": "MCFPP language support for VS Code",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "publisher": "MangoFanFanW",
   "icon": "images/MCFPP-icon.png",
+  "main": "./out/extension.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mangofanfan/MCFPP-vscode-extension"
@@ -42,13 +43,41 @@
         "scopeName": "source.mcfpp",
         "path": "./syntaxes/mcfpp.tmLanguage.json"
       }
-    ]
+    ],
+    "commands": [
+      {
+        "command": "mcfpp.command.testJavaExecutable",
+        "title": "测试在 MCFPP 中设置的 Java 可执行文件",
+        "shortTitle": "MCFPP：测试 Java"
+      }
+    ],
+    "configuration": {
+      "title": "MCFPP",
+      "properties": {
+        "mcfpp.java.executablePath": {
+          "type": "string",
+          "default": null,
+          "markdownDescription": "Java 可执行文件的路径，用于启动 **MCFPP语言服务器**。需要为 Java 21 及以上。"
+        }
+      }
+    }
   },
   "devDependencies": {
-    "js-yaml": "^5.4.1"
+    "@types/node": "^26.4.0",
+    "@types/vscode": "^1.134.0",
+    "js-yaml": "^5.4.1",
+    "typescript": "^7.0.2"
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
   },
   "galleryBanner": {
     "color": "#1e1e1e",
     "theme": "dark"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^10.1.1"
   }
 }

@@ -82,7 +82,7 @@
       "patterns": [
         {
           "name": "keyword.control.mcfpp",
-          "match": "\\b(?:if|else|do|while|for|return|break|continue)\\b"
+          "match": "\\b(?:if|else|do|while|for|return|break|continue|namespace)\\b"
         },
         {
           "name": "keyword.operator.mcfpp",
