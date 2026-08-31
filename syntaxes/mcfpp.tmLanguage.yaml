@@ -7,13 +7,13 @@ fileTypes:
   - mcfpp
 
 patterns:
-  - include: '#comment'
-  - include: '#decorator'
-  - include: '#function'
-  - include: '#keyword'
-  - include: '#storage'
-  - include: '#string'
-  - include: '#number'
+  - include: "#comment"
+  - include: "#decorator"
+  - include: "#function"
+  - include: "#keyword"
+  - include: "#storage"
+  - include: "#string"
+  - include: "#number"
 
 repository:
   # repository 条目必须是对象（内部用 patterns 包裹），不能直接是数组
@@ -26,46 +26,52 @@ repository:
         end: '\}#'
       # 块注释 ## ... ##
       - name: comment.block.mcfpp
-        begin: '##'
-        end: '##'
+        begin: "##"
+        end: "##"
       # 行注释 # ...（必须放在最后）
       - name: comment.line.mcfpp
-        match: '#.*'
-  
+        match: "#.*"
+
   # 装饰器/注解？
   decorator:
     patterns:
       - name: meta.decorator.mcfpp
         match: '(@)(\w+)\b'
         captures:
-          1: 
+          1:
             name: punctuation.definition.decorator.mcfpp
-          2: 
+          2:
             name: entity.name.function.decorator.mcfpp
-  
-  # 函数
+
+  # 函数，不止函数
   function:
     patterns:
       - match: '\b(func)\s+(\w+)\b'
         captures:
           1:
-              name: storage.type.function.mcfpp
+            name: storage.type.function.mcfpp
           2:
-              name: entity.name.function.mcfpp
+            name: entity.name.function.mcfpp
+      - match: '\b(class|data|enum)\s+(\w+)\b'
+        captures:
+          1:
+            name: storage.type.class.mcfpp
+          2:
+            name: entity.name.class.mcfpp
 
   # 关键字
   keyword:
     patterns:
       - name: keyword.control.mcfpp
-        match: '\b(?:if|else|do|while|for|return|break|continue|namespace)\b'
+        match: '\b(?:if|else|do|while|for|return|break|continue|namespace|import)\b'
       - name: keyword.operator.mcfpp
         match: '==|!=|<=|>=|->|[+\-*/%<>!&|=]'
-  
+
   # 另一类关键字
   storage:
     patterns:
       - name: storage.type.mcfpp
-        match: '\b(?:const|var|class)\b'
+        match: '\b(?:const|var|object)\b'
       - name: storage.modifier.mcfpp
         match: '\b(?:as|dynamic|static|override|int|float|bool|nbt|list|dict|map|string|text|entity|selector)\b'
 
@@ -77,16 +83,16 @@ repository:
         end: '"'
         # captures 的值必须是 name 对象，不能是字符串
         beginCaptures:
-          '0':
+          "0":
             name: punctuation.definition.string.begin.mcfpp
         endCaptures:
-          '0':
+          "0":
             name: punctuation.definition.string.end.mcfpp
         patterns:
           # 转义序列，防止 \" 提前终止字符串
           - name: constant.character.escape.mcfpp
             match: '\\.'
-  
+
   # 数字
   number:
     patterns:

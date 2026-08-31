@@ -2,7 +2,7 @@
   "name": "mcfpp",
   "displayName": "MCFPP",
   "description": "MCFPP language support for VS Code",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "MangoFanFanW",
   "icon": "images/MCFPP-icon.png",
   "main": "./out/extension.js",
@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@types/node": "^26.4.0",
-    "@types/vscode": "^1.134.0",
+    "@types/vscode": "^1.120.0",
     "js-yaml": "^5.4.1",
     "typescript": "^7.0.2"
   },

@@ -4,6 +4,12 @@ All notable changes to the "mcfpp" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.0]
+
+---
+
+- 在扩展侧添加 MCFPP 的基础友好引导，与语言服务器的悬浮框提示融合
+
 ## [0.2.0]
 
 - Add MCFPP language server support (https://github.com/Alumopper/mcfpp-language-support/)

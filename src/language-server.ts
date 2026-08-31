@@ -2,7 +2,14 @@ import { spawnSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
-import { LanguageClient } from "vscode-languageclient/node";
+import {
+  LanguageClient,
+  LanguageClientOptions,
+  ProvideHoverSignature,
+  ServerOptions,
+  HoverMiddleware,
+} from "vscode-languageclient/node";
+import { getMoreHoverMarkdownText } from "./more-hover";
 
 let client: LanguageClient | null = null;
 
@@ -126,13 +133,16 @@ function startLanguageServer(javaPath: string, jarPath: string) {
   }
 
   // 构建参数并拉起服务
-  const serverOptions = {
+  const serverOptions: ServerOptions = {
     run: { command: javaPath, args: ["-jar", jarPath] },
     debug: { command: javaPath, args: ["-jar", jarPath, "--verbose"] },
   };
-  const clientOptions = {
+  const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", language: "mcfpp" }],
     outputChannelName: "MCFPP Language Server",
+    middleware: {
+      provideHover: enhanceHover,
+    },
   };
 
   const newClient = new LanguageClient(
@@ -144,12 +154,17 @@ function startLanguageServer(javaPath: string, jarPath: string) {
   client = newClient;
 
   // LanguageClient 构造后不会自动启动，必须显式调用 start()
-  void newClient.start().catch((err: unknown) => {
-    console.error("MCFPP language server 启动失败：", err);
-    vscode.window.showErrorMessage(
-      `MCFPP 语言服务器启动失败：${err instanceof Error ? err.message : String(err)}`,
-    );
-  });
+  void newClient
+    .start()
+    .then(() => {
+      console.info("MCFPP language server 启动成功！");
+    })
+    .catch((err: unknown) => {
+      console.error("MCFPP language server 启动失败：", err);
+      vscode.window.showErrorMessage(
+        `MCFPP 语言服务器启动失败：${err instanceof Error ? err.message : String(err)}`,
+      );
+    });
 }
 
 async function stopLanguageServer(): Promise<void> {
@@ -157,6 +172,45 @@ async function stopLanguageServer(): Promise<void> {
     await client.stop();
     client = null;
     console.info("MCFPP language server 已关闭。");
+  }
+}
+
+/**
+ *
+ * 增强 MCFPP 语言服务器返回的悬停提示。
+ *
+ * 所有参数与中间件 provideHover 一致。
+ *
+ * @see HoverMiddleware
+ *
+ * @param document
+ * @param position
+ * @param token
+ * @param next
+ * @returns
+ */
+async function enhanceHover(
+  document: vscode.TextDocument,
+  position: vscode.Position,
+  token: vscode.CancellationToken,
+  next: ProvideHoverSignature,
+): Promise<vscode.Hover> {
+  const hover = await next(document, position, token);
+
+  const extra = new vscode.MarkdownString();
+  // 与已有内容分割，除非 LSP 未返回悬停内容
+  if (hover) extra.appendMarkdown("\n---\n");
+  // 根据选中文本内容获取扩展提示
+  const wordRange = document.getWordRangeAtPosition(position);
+  const word = wordRange ? document.getText(wordRange) : "";
+  const enhanceExtra = getMoreHoverMarkdownText(word, extra);
+
+  if (!hover) {
+    const fallbackHover = new vscode.Hover(extra);
+    return fallbackHover;
+  } else {
+    hover.contents = [...hover.contents, enhanceExtra];
+    return hover;
   }
 }
 

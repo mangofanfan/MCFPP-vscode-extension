@@ -75,6 +75,17 @@
               "name": "entity.name.function.mcfpp"
             }
           }
+        },
+        {
+          "match": "\\b(class|data|enum)\\s+(\\w+)\\b",
+          "captures": {
+            "1": {
+              "name": "storage.type.class.mcfpp"
+            },
+            "2": {
+              "name": "entity.name.class.mcfpp"
+            }
+          }
         }
       ]
     },
@@ -82,7 +93,7 @@
       "patterns": [
         {
           "name": "keyword.control.mcfpp",
-          "match": "\\b(?:if|else|do|while|for|return|break|continue|namespace)\\b"
+          "match": "\\b(?:if|else|do|while|for|return|break|continue|namespace|import)\\b"
         },
         {
           "name": "keyword.operator.mcfpp",
@@ -94,7 +105,7 @@
       "patterns": [
         {
           "name": "storage.type.mcfpp",
-          "match": "\\b(?:const|var|class)\\b"
+          "match": "\\b(?:const|var|object)\\b"
         },
         {
           "name": "storage.modifier.mcfpp",
