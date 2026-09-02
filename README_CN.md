@@ -16,7 +16,22 @@
 
 * ✅ 基于 TextMate 的基础语法高亮
 * ✅ 内嵌语言服务器
+* ✅ MCFPP 语言关键字的简短指南
+* ❕ 项目模板
 * ❕ 更多智能功能
+
+---
+1. 基础语法高亮
+
+![基础语法高亮](/images/code-highlight.png)
+
+2. 文档渲染
+
+![文档渲染](/images/hover-tip.png)
+
+3. 语言关键字指南
+
+![语言关键字指南](/images/inner-keyword-tip.png)
 
 ## 说明
 

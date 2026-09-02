@@ -73,7 +73,7 @@ repository:
       - name: storage.type.mcfpp
         match: '\b(?:const|var|object)\b'
       - name: storage.modifier.mcfpp
-        match: '\b(?:as|dynamic|static|override|int|float|bool|nbt|list|dict|map|string|text|entity|selector)\b'
+        match: '\b(?:as|dynamic|static|override|inline|int|float|bool|nbt|list|dict|map|string|text|entity|selector)\b'
 
   # 字符串
   string:

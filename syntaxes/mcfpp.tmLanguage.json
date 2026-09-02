@@ -109,7 +109,7 @@
         },
         {
           "name": "storage.modifier.mcfpp",
-          "match": "\\b(?:as|dynamic|static|override|int|float|bool|nbt|list|dict|map|string|text|entity|selector)\\b"
+          "match": "\\b(?:as|dynamic|static|override|inline|int|float|bool|nbt|list|dict|map|string|text|entity|selector)\\b"
         }
       ]
     },

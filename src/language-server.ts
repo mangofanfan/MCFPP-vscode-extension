@@ -10,6 +10,7 @@ import {
   HoverMiddleware,
 } from "vscode-languageclient/node";
 import { getMoreHoverMarkdownText } from "./more-hover";
+import { enhanceDocComment } from "./docs/enhanceDocComment";
 
 let client: LanguageClient | null = null;
 
@@ -195,12 +196,15 @@ async function enhanceHover(
   token: vscode.CancellationToken,
   next: ProvideHoverSignature,
 ): Promise<vscode.Hover> {
-  const hover = await next(document, position, token);
-
+  let hover = await next(document, position, token);
   const extra = new vscode.MarkdownString();
+
   // 与已有内容分割，除非 LSP 未返回悬停内容
-  if (hover) extra.appendMarkdown("\n---\n");
-  // 根据选中文本内容获取扩展提示
+  if (hover) {
+    hover = enhanceDocComment(hover);
+    extra.appendMarkdown("\n---\n");
+  }
+  // 根据选中文本内容获取增强的扩展提示
   const wordRange = document.getWordRangeAtPosition(position);
   const word = wordRange ? document.getText(wordRange) : "";
   const enhanceExtra = getMoreHoverMarkdownText(word, extra);

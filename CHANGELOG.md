@@ -9,6 +9,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ---
 
 - 在扩展侧添加 MCFPP 的基础友好引导，与语言服务器的悬浮框提示融合
+- 支持函数文档的渲染
 
 ## [0.2.0]
 
